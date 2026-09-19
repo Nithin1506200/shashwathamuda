@@ -1,0 +1,18 @@
+---
+layout: ../layouts/Layout.astro
+title: Programs & Services
+eyebrow: Programs
+lead: What Shashwatamuda actually offers — for individuals, families, young people and institutions.
+description: All yoga, music, workshop and training programs offered by Shashwatamuda.
+wide: true
+---
+import { ProgramGroups } from '../components/Programs';
+import { Section, Cta } from '../components/Section';
+
+<Section>
+  <ProgramGroups />
+</Section>
+
+<Section tone="tint">
+  <Cta title="Not sure where to start?" text="Tell us a little about yourself and we will recommend a program." primary={{ label: 'Talk to us', href: '/contact' }} secondary={{ label: 'Wellness services', href: '/wellness' }} />
+</Section>

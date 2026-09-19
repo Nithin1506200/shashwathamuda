@@ -1,0 +1,24 @@
+---
+layout: ../layouts/Layout.astro
+title: Events
+eyebrow: Events
+lead: Workshops, yoga camps, music programs, lectures, community activities and International Yoga Day programs.
+description: Upcoming and past events at Shashwatamuda.
+wide: true
+---
+import { UpcomingEvents, PastEvents } from '../components/Events';
+import { Section, SectionHeading, Cta } from '../components/Section';
+
+<Section id="upcoming">
+  <SectionHeading eyebrow="Upcoming" title="Upcoming events" align="left" className="mb-8" />
+  <UpcomingEvents />
+</Section>
+
+<Section tone="tint" id="past">
+  <SectionHeading eyebrow="Archive" title="Past events" align="left" className="mb-8" />
+  <PastEvents />
+</Section>
+
+<Section>
+  <Cta title="Never miss an event" text="Follow us on Instagram and Facebook for announcements, or write to us to be added to the mailing list." primary={{ label: 'Contact us', href: '/contact' }} />
+</Section>

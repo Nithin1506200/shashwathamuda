@@ -1,0 +1,41 @@
+---
+layout: ../layouts/Layout.astro
+title: Connect with Shashwatamuda
+eyebrow: Contact
+lead: Questions, enquiries, collaborations — we would love to hear from you.
+description: Contact Shashwatamuda by form, email, phone or social media.
+wide: true
+---
+import ContactForm from '../components/ContactForm';
+import { Section } from '../components/Section';
+import { site } from '../data/site';
+
+<Section>
+  <div className="grid gap-12 lg:grid-cols-[1fr_1.4fr]">
+    <div className="reveal space-y-8">
+      <div>
+        <p className="eyebrow">Email</p>
+        <a href={`mailto:${site.email}`} className="mt-1 block text-lg font-medium text-peacock-700 hover:underline">{site.email}</a>
+      </div>
+      <div>
+        <p className="eyebrow">Phone</p>
+        <a href={`tel:${site.phone.replace(/\s/g, '')}`} className="mt-1 block text-lg font-medium text-peacock-700 hover:underline">{site.phone}</a>
+      </div>
+      <div>
+        <p className="eyebrow">Location</p>
+        <p className="mt-1 text-lg text-ink-700">{site.location}</p>
+      </div>
+      <div>
+        <p className="eyebrow">Social</p>
+        <div className="mt-2 flex flex-wrap gap-3">
+          <a href={site.social.instagram} target="_blank" rel="noopener" className="btn-outline px-4 py-2 text-xs">Instagram</a>
+          <a href={site.social.facebook} target="_blank" rel="noopener" className="btn-outline px-4 py-2 text-xs">Facebook</a>
+          <a href={site.social.youtube} target="_blank" rel="noopener" className="btn-outline px-4 py-2 text-xs">YouTube</a>
+        </div>
+      </div>
+    </div>
+    <div className="card reveal reveal-delay-1 hover:translate-y-0">
+      <ContactForm client:load email={site.email} />
+    </div>
+  </div>
+</Section>

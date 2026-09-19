@@ -1,0 +1,15 @@
+---
+layout: ../../layouts/Layout.astro
+title: Blog
+eyebrow: Knowledge Hub
+lead: Articles on Yoga, Music, Bharatiya wisdom, research, well-being and community.
+description: The Shashwatamuda blog — articles on yoga, pranayama, meditation, Carnatic music, Nāda yoga, Indian philosophy and integrative health.
+wide: true
+---
+import PostGrid from '../../components/PostGrid';
+import { Section } from '../../components/Section';
+import { getPosts } from '../../lib/posts';
+
+<Section>
+  <PostGrid posts={getPosts()} />
+</Section>

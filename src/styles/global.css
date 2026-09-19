@@ -1,0 +1,135 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* ---------- Brand theme: peacock (green / teal / blue / gold) ---------- */
+@theme {
+  --color-peacock-50: #eef7f5;
+  --color-peacock-100: #d5ece7;
+  --color-peacock-200: #a9d8cf;
+  --color-peacock-300: #6fbcb0;
+  --color-peacock-400: #3a9a8f;
+  --color-peacock-500: #1c7a72;
+  --color-peacock-600: #0f5f5a;
+  --color-peacock-700: #0d4b48;
+  --color-peacock-800: #0b3a38;
+  --color-peacock-900: #072826;
+
+  --color-feather-300: #a7dd6d;
+  --color-feather-500: #6bbf3a;
+  --color-feather-700: #3f8a26;
+
+  --color-plume-300: #7dd8e6;
+  --color-plume-500: #3fc1d6;
+  --color-plume-700: #1a8fa3;
+
+  --color-knot-400: #5b74c4;
+  --color-knot-500: #3d56b0;
+  --color-knot-600: #2c4aa0;
+  --color-knot-700: #223a80;
+
+  --color-gold-300: #e8cf7a;
+  --color-gold-400: #d9b84a;
+  --color-gold-500: #c9a227;
+  --color-gold-600: #a8851b;
+
+  --color-saffron-400: #e88a4a;
+  --color-saffron-500: #d9642c;
+  --color-saffron-600: #b94c1c;
+
+  --color-sand-50: #fbfaf6;
+  --color-sand-100: #f4f1e8;
+  --color-sand-200: #e9e3d3;
+
+  --color-ink-900: #16201f;
+  --color-ink-700: #2f3e3c;
+  --color-ink-500: #5b6b69;
+
+  --font-display: "Cormorant Garamond", "Georgia", "Times New Roman", serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --animate-fade-up: fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-float-slow: float 11s ease-in-out infinite;
+  --animate-spin-slow: spin 90s linear infinite;
+  --animate-shimmer: shimmer 3.5s ease-in-out infinite;
+  --animate-slither: slither 6s ease-in-out infinite;
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-14px) rotate(2deg); }
+  }
+  @keyframes shimmer {
+    0%, 100% { opacity: 0.55; }
+    50% { opacity: 1; }
+  }
+  @keyframes slither {
+    0%, 100% { stroke-dashoffset: 0; }
+    50% { stroke-dashoffset: 40; }
+  }
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-sand-50 text-ink-900 font-sans antialiased overflow-x-hidden;
+  }
+  ::selection { background: var(--color-gold-300); color: var(--color-ink-900); }
+  h1, h2, h3, .font-display { font-family: var(--font-display); }
+}
+
+@layer components {
+  .container-x { @apply mx-auto w-full max-w-6xl px-5 sm:px-8; }
+  .eyebrow { @apply text-xs font-semibold uppercase tracking-[0.22em] text-peacock-500; }
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2; }
+  .btn-primary { @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2 bg-peacock-600 text-white shadow-md shadow-peacock-600/20 hover:bg-peacock-700 hover:-translate-y-0.5; }
+  .btn-gold { @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2 bg-gold-500 text-ink-900 hover:bg-gold-400 hover:-translate-y-0.5; }
+  .btn-outline { @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2 border border-peacock-600/40 text-peacock-700 hover:border-peacock-600 hover:bg-peacock-50; }
+  .card { @apply rounded-2xl border border-sand-200 bg-white/80 p-6 shadow-sm backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-peacock-600/10; }
+  .prose-brand { @apply prose prose-lg max-w-none prose-headings:font-display prose-headings:font-semibold prose-headings:text-peacock-800 prose-a:text-peacock-600 prose-a:no-underline hover:prose-a:underline prose-strong:text-ink-900 prose-li:marker:text-gold-500 prose-blockquote:border-gold-400 prose-blockquote:text-ink-700; }
+}
+
+/* ---------- Scroll reveal (progressively enhanced) ---------- */
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1); }
+.reveal.is-visible { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: .12s; }
+.reveal-delay-2 { transition-delay: .24s; }
+.reveal-delay-3 { transition-delay: .36s; }
+.reveal-delay-4 { transition-delay: .48s; }
+.no-js .reveal { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* subtle mandala backdrop used on hero and section headers */
+.bg-mandala {
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(201,162,39,.10), transparent 45%),
+    radial-gradient(circle at 85% 30%, rgba(63,193,214,.10), transparent 40%),
+    radial-gradient(circle at 10% 60%, rgba(107,191,58,.10), transparent 40%);
+}
+.feather-texture {
+  background-image: repeating-radial-gradient(circle at 50% 50%, rgba(15,95,90,.05) 0 1px, transparent 1px 22px);
+}
+
+/* ---------- FAQ accordion (native <details>, no JS needed) ---------- */
+.faq-list { @apply divide-y divide-sand-200 rounded-2xl border border-sand-200 bg-white/70 backdrop-blur; }
+.faq-item summary {
+  @apply flex cursor-pointer list-none items-start justify-between gap-4 px-5 py-4 font-medium text-ink-900 transition-colors hover:bg-peacock-50/60 sm:px-6;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-icon {
+  @apply mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-gold-500/60 text-gold-600 transition-transform duration-300;
+}
+.faq-item[open] .faq-icon { transform: rotate(45deg); }
+.faq-answer { @apply px-5 pb-5 text-ink-700 sm:px-6; animation: fade-up .45s cubic-bezier(.22,1,.36,1) both; }
+.faq-answer p + p { margin-top: .6rem; }
+.faq-answer a { @apply text-peacock-600 underline; }
+
+/* typography plugin adds curly quotes around blockquotes; our quotes carry their own */
+.prose-brand blockquote p::before, .prose-brand blockquote p::after { content: none; }

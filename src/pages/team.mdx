@@ -1,0 +1,17 @@
+---
+layout: ../layouts/Layout.astro
+title: Our Team
+eyebrow: People
+lead: Founder, faculty, advisors and the youth team that keeps Shashwatamuda moving.
+description: The Shashwatamuda team — founder, yoga faculty, music faculty, advisors, mentors and volunteers.
+---
+import { TeamGrid } from '../components/People';
+import { Cta } from '../components/Section';
+
+<TeamGrid />
+
+## Become a volunteer
+
+Volunteers help run camps, community events and youth programs, and gain hands-on experience in yoga, music and outreach. Students and young professionals are especially welcome.
+
+<Cta title="Join Shashwatamuda" text="Faculty, researchers, volunteers — tell us how you would like to contribute." primary={{ label: 'Volunteer', href: '/contact?interest=Volunteering' }} secondary={{ label: 'Collaborate', href: '/collaborate' }} />

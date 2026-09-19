@@ -1,0 +1,7 @@
+/* TEAM */
+Founder & Lead: Nikhil Srinivas
+Site: Shashwatamuda
+
+/* SITE */
+Standards: HTML5, CSS3, MDX
+Components: Astro, React, Tailwind CSS

@@ -1,0 +1,15 @@
+---
+layout: ../layouts/Layout.astro
+title: Testimonials
+eyebrow: Voices
+lead: Authentic participant experiences, shared with permission.
+description: What participants say about Shashwatamuda's yoga, music and community programs.
+---
+import { Testimonials } from '../components/People';
+import { Cta } from '../components/Section';
+
+<Testimonials />
+
+<p className="mt-10 text-sm text-ink-500">Testimonials describe individual experiences and are not claims about health outcomes.</p>
+
+<Cta title="Share your experience" text="If a program has meant something to you, we would love to hear about it." primary={{ label: 'Write to us', href: '/contact' }} />

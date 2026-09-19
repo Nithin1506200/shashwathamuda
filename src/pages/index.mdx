@@ -1,0 +1,68 @@
+---
+layout: ../layouts/Layout.astro
+title: Home
+type: landing
+description: Shashwatamuda — The Truth of Eternal Joy. A contemporary platform rooted in Yoga, Indian classical music and Bharatiya traditions, creating pathways to holistic well-being, learning and inner harmony.
+---
+import Hero from '../components/Hero';
+import Pillars from '../components/Pillars';
+import LatestPosts from '../components/LatestPosts';
+import { UpcomingEvents } from '../components/Events';
+import { Testimonials } from '../components/People';
+import { Section, SectionHeading, Cta } from '../components/Section';
+import SerpentDivider from '../components/SerpentDivider';
+
+<Hero />
+
+<Section>
+  <div className="reveal mx-auto max-w-3xl text-center">
+    <p className="eyebrow">Welcome</p>
+    <p className="font-display mt-4 text-2xl leading-relaxed text-ink-900 sm:text-3xl">
+      Shashwatamuda is an initiative dedicated to bringing the wisdom of Yoga, Indian classical music and Bharatiya Shāstras into contemporary life through education, practice, research and community engagement.
+    </p>
+    <SerpentDivider className="mt-8 justify-center" tone="peacock" />
+    <a href="/about" className="btn-outline mt-8">Read our story</a>
+  </div>
+</Section>
+
+<Section tone="tint" id="pillars">
+  <Pillars />
+</Section>
+
+<Section>
+  <SectionHeading eyebrow="Programs" title="Practice with us" lead="Regular classes, therapeutic programs, Veena lessons and workshops for individuals, families and institutions." className="mb-10" />
+  <div className="grid gap-5 sm:grid-cols-3">
+    {[
+      ['Yoga', 'Regular, advanced and therapeutic yoga, pranayama and meditation.', '/yoga'],
+      ['Music', 'Carnatic Veena, vocal foundations and raga-based relaxation.', '/music'],
+      ['Workshops & Training', 'Intensives, instructor development, youth and institutional programs.', '/programs#workshops'],
+    ].map(([t, d, h], i) => (
+      <a key={t} href={h} className={`card reveal reveal-delay-${i + 1} group`}>
+        <h3 className="font-display text-2xl font-semibold text-peacock-800 group-hover:text-peacock-600">{t}</h3>
+        <p className="mt-2 text-ink-700">{d}</p>
+        <span className="mt-4 inline-block text-sm font-semibold text-gold-600">Explore →</span>
+      </a>
+    ))}
+  </div>
+</Section>
+
+<Section tone="tint" id="events">
+  <SectionHeading eyebrow="Upcoming events" title="Join us soon" align="left" className="mb-8" />
+  <UpcomingEvents limit={2} />
+  <div className="reveal mt-8"><a href="/events" className="btn-outline">All events</a></div>
+</Section>
+
+<Section>
+  <SectionHeading eyebrow="From the blog" title="Knowledge, shared" lead="Articles on yoga, music, Bharatiya wisdom, research and well-being. Loaded only when you scroll here." className="mb-10" />
+  <LatestPosts client:visible limit={3} />
+  <div className="reveal mt-8 text-center"><a href="/blog" className="btn-outline">Read the blog</a></div>
+</Section>
+
+<Section tone="tint">
+  <SectionHeading eyebrow="Voices" title="What participants say" className="mb-10" />
+  <Testimonials limit={2} />
+</Section>
+
+<Section>
+  <Cta title="Begin your journey" text="Reach out and we will help you find the right class, program or collaboration." primary={{ label: 'Contact us', href: '/contact' }} secondary={{ label: 'Collaborate', href: '/collaborate' }} />
+</Section>

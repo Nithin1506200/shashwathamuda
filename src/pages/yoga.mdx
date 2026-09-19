@@ -1,0 +1,33 @@
+---
+layout: ../layouts/Layout.astro
+title: Yoga
+sanskrit: योग
+eyebrow: Body • Breath • Mind
+lead: Traditional Yoga, Yoga Therapy, advanced practice, Pranayama and Meditation, taught with care for every body and every stage of life.
+description: Yoga programs at Shashwatamuda — regular and advanced classes, therapeutic yoga, pranayama, meditation, individual sessions and camps.
+---
+import { ProgramList } from '../components/Programs';
+import { Cta } from '../components/Section';
+import Callout from '../components/Callout';
+
+## Our approach
+
+Our yoga teaching draws on the classical Hatha and Raja Yoga texts, taught in a way that is safe, progressive and relevant to modern life. Whether you come for fitness, calm, recovery or deeper practice, you will start with a short orientation so we can place you in the right group.
+
+<Callout title="A note on yoga therapy">
+Therapeutic yoga is a complementary, educational practice. It supports, but does not replace, medical diagnosis and treatment. We ask every participant to keep their healthcare provider informed.
+</Callout>
+
+## Programs
+
+<ProgramList group="yoga" />
+
+## What a regular batch looks like
+
+1. **Centering and breath awareness** for the first few minutes.
+2. **Joint mobility and sun salutations** to warm the body.
+3. **Asana sequence** adapted to the week's theme.
+4. **Pranayama** appropriate to the group's experience.
+5. **Deep relaxation** or a short meditation to close.
+
+<Cta title="Join a yoga batch" text="Tell us your goals and we will suggest a suitable group and a trial session." primary={{ label: 'Enquire now', href: '/contact?interest=Yoga%20classes' }} secondary={{ label: 'See all programs', href: '/programs' }} />

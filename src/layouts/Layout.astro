@@ -1,0 +1,264 @@
+---
+/**
+ * The single document shell. Every page on the site is an MDX file that points
+ * here via `layout:` frontmatter; everything inside is React (TSX) or MDX.
+ *
+ * Frontmatter options:
+ *   title, description         SEO + page hero
+ *   type: page | landing | post  (default: page)
+ *   eyebrow, lead, sanskrit    page hero copy
+ *   hero: false                skip the page hero
+ *   wide: true                 don't wrap content in prose styling (section pages)
+ *   hideFaqs: true             skip the FAQ block
+ *   date, category, author, tags   (posts)
+ */
+import '../styles/global.css';
+import { getCollection, render } from 'astro:content';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import PageHero from '../components/PageHero';
+import SerpentDivider from '../components/SerpentDivider';
+import { site, nav } from '../data/site';
+import { getPost } from '../lib/posts';
+
+type Frontmatter = {
+  title: string;
+  description?: string;
+  type?: 'page' | 'landing' | 'post';
+  eyebrow?: string;
+  lead?: string;
+  sanskrit?: string;
+  hero?: boolean;
+  wide?: boolean;
+  hideFaqs?: boolean;
+  image?: string;
+  date?: string;
+  category?: string;
+  author?: string;
+  tags?: string[];
+};
+interface Props { frontmatter: Frontmatter; url?: string }
+
+const { frontmatter: fm } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const path = (Astro.url.pathname.startsWith(base) ? Astro.url.pathname.slice(base.length) : Astro.url.pathname).replace(/\.html$/, '').replace(/\/$/, '') || '/';
+const type = fm.type ?? 'page';
+const isPost = type === 'post';
+const showHero = fm.hero !== false && type === 'page';
+const prose = !fm.wide && type !== 'landing';
+
+const description = fm.description ?? site.description;
+const canonical = new URL(`${base}${path === '/' ? '/' : path}`, Astro.site);
+const ogImage = new URL(fm.image ?? '/og-image.jpg', Astro.site);
+const fullTitle = path === '/' ? `${site.name} — ${site.tagline}` : `${fm.title} · ${site.name}`;
+
+// ---------- FAQs (MDX content collection) ----------
+const allFaqs = (await getCollection('faq', (e) => !e.data.draft)).sort((a, b) => a.data.order - b.data.order);
+const isFaqPage = path === '/faq';
+const pageFaqs = isFaqPage
+  ? allFaqs
+  : [
+      ...allFaqs.filter((e) => e.data.pages.includes(path)),
+      ...allFaqs.filter((e) => e.data.pages.includes('all') && !e.data.pages.includes(path)),
+    ];
+const rendered = await Promise.all(pageFaqs.map(async (e) => ({ entry: e, Content: (await render(e)).Content })));
+const topicOrder = ['General', 'Getting started', 'About', 'Yoga', 'Music', 'Programs', 'Wellness', 'Research', 'Community', 'Events', 'Blog', 'Founder', 'Team', 'Gallery', 'Testimonials', 'Collaboration', 'Contact'];
+const rank = (t: string) => (topicOrder.includes(t) ? topicOrder.indexOf(t) : topicOrder.length);
+const topics = isFaqPage ? [...new Set(pageFaqs.map((e) => e.data.topic))].sort((a, b) => rank(a) - rank(b) || a.localeCompare(b)) : [];
+const showFaqs = !fm.hideFaqs && rendered.length > 0;
+
+// ---------- Post metadata ----------
+const post = isPost ? getPost(path) : undefined;
+const postDate = fm.date ? new Date(fm.date) : undefined;
+
+// ---------- Structured data ----------
+const ld: Record<string, unknown>[] = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: site.name,
+    url: site.url,
+    logo: new URL('/icons/icon-512.png', Astro.site).toString(),
+    slogan: site.tagline,
+    founder: { '@type': 'Person', name: site.founder },
+    address: { '@type': 'PostalAddress', addressLocality: 'Bengaluru', addressRegion: 'Karnataka', addressCountry: 'IN' },
+    sameAs: Object.values(site.social),
+  },
+];
+if (showFaqs) {
+  ld.push({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: pageFaqs.map((e) => ({
+      '@type': 'Question',
+      name: e.data.question,
+      acceptedAnswer: { '@type': 'Answer', text: (e.body ?? '').replace(/\s+/g, ' ').trim() },
+    })),
+  });
+}
+if (isPost && postDate) {
+  ld.push({
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: fm.title,
+    description,
+    datePublished: postDate.toISOString(),
+    author: { '@type': 'Person', name: fm.author ?? site.name },
+    publisher: { '@type': 'Organization', name: site.name },
+    keywords: fm.tags?.join(', '),
+    mainEntityOfPage: canonical.toString(),
+  });
+}
+---
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#0f5f5a" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="generator" content={Astro.generator} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="author" href="/humans.txt" />
+
+    <meta property="og:type" content={isPost ? 'article' : 'website'} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="en_IN" />
+    {isPost && postDate && <meta property="article:published_time" content={postDate.toISOString()} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    {ld.map((block) => <script type="application/ld+json" set:html={JSON.stringify(block)} />)}
+    <script is:inline>document.documentElement.classList.remove('no-js');</script>
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-gold-500 focus:px-4 focus:py-2">Skip to content</a>
+    <Header client:load items={nav} current={path} />
+
+    <main id="main" class="flex-1">
+      {showHero && <PageHero eyebrow={fm.eyebrow} title={fm.title} lead={fm.lead} sanskrit={fm.sanskrit} />}
+
+      {isPost && postDate && (
+        <header class="bg-mandala">
+          <div class="container-x py-14 sm:py-20">
+            <div class="mx-auto max-w-3xl text-center">
+              <a href="/blog" class="eyebrow inline-flex items-center gap-1 hover:underline">← Blog · {fm.category}</a>
+              <h1 class="font-display mt-4 text-4xl font-semibold leading-tight text-peacock-900 animate-fade-up sm:text-5xl">{fm.title}</h1>
+              <p class="mt-5 text-lg text-ink-700 animate-fade-up" style="animation-delay:.1s">{fm.description}</p>
+              <p class="mt-6 text-sm text-ink-500 animate-fade-up" style="animation-delay:.2s">
+                By {fm.author ?? site.name} · <time datetime={postDate.toISOString()}>{postDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</time>
+                {post && ` · ${post.readingTime}`}
+              </p>
+              <SerpentDivider className="mt-8 justify-center" />
+            </div>
+          </div>
+        </header>
+      )}
+
+      {prose ? (
+        <article class="container-x py-14 sm:py-20">
+          <div class="prose-brand reveal mx-auto max-w-3xl">
+            <slot />
+          </div>
+          {isPost && (
+            <div class="mx-auto max-w-3xl">
+              {fm.tags?.length ? (
+                <div class="mt-10 flex flex-wrap gap-2">
+                  {fm.tags.map((t) => <span class="rounded-full bg-peacock-50 px-3 py-1 text-xs font-medium text-peacock-700">#{t}</span>)}
+                </div>
+              ) : null}
+              <div class="mt-12 rounded-2xl border border-gold-300/60 bg-gold-300/15 p-6 text-sm text-ink-700">
+                This article is for educational purposes and is not medical advice. If you have a health condition, please consult your healthcare provider before beginning a new practice.
+              </div>
+            </div>
+          )}
+        </article>
+      ) : (
+        <slot />
+      )}
+
+      {showFaqs && (
+        <section class="border-t border-sand-200 bg-sand-100/60 py-16 sm:py-20" aria-labelledby="faq-title">
+          <div class="container-x">
+            <div class="mx-auto max-w-3xl">
+              {!isFaqPage && (
+                <div class="reveal mb-8 text-center">
+                  <p class="eyebrow">FAQs</p>
+                  <h2 id="faq-title" class="font-display mt-2 text-3xl font-semibold text-peacock-800 sm:text-4xl">Frequently asked questions</h2>
+                </div>
+              )}
+              {isFaqPage ? (
+                topics.map((topic) => (
+                  <div class="mb-10">
+                    <h2 class="font-display reveal mb-4 text-2xl font-semibold text-peacock-800">{topic}</h2>
+                    <div class="faq-list">
+                      {rendered.filter((r) => r.entry.data.topic === topic).map(({ entry, Content }) => (
+                        <details class="faq-item">
+                          <summary>{entry.data.question}<span class="faq-icon" aria-hidden="true">+</span></summary>
+                          <div class="faq-answer"><Content /></div>
+                        </details>
+                      ))}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div class="faq-list reveal">
+                  {rendered.map(({ entry, Content }, i) => (
+                    <details class="faq-item" open={i === 0}>
+                      <summary>{entry.data.question}<span class="faq-icon" aria-hidden="true">+</span></summary>
+                      <div class="faq-answer"><Content /></div>
+                    </details>
+                  ))}
+                </div>
+              )}
+              {!isFaqPage && (
+                <p class="mt-6 text-center text-sm text-ink-500">
+                  More questions? <a href="/faq" class="font-semibold text-peacock-600 hover:underline">See all FAQs</a> or <a href="/contact" class="font-semibold text-peacock-600 hover:underline">contact us</a>.
+                </p>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+    </main>
+
+    <Footer />
+
+    <script>
+      // Light scroll-reveal: adds .is-visible once an element enters the viewport.
+      const els = document.querySelectorAll<HTMLElement>('.reveal');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach((el) => el.classList.add('is-visible'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (e.isIntersecting) {
+                (e.target as HTMLElement).classList.add('is-visible');
+                io.unobserve(e.target);
+              }
+            }
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.1 },
+        );
+        els.forEach((el) => io.observe(el));
+      }
+    </script>
+  </body>
+</html>
