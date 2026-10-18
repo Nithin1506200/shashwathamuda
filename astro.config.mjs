@@ -19,6 +19,19 @@ import { join } from 'node:path';
 const SITE = process.env.SITE_URL || 'https://shashwatamuda.org';
 const BASE = (process.env.BASE_PATH || '/').replace(/\/+$/, '') || '/';
 
+/** @returns {import('astro').AstroIntegration} */
+function isolateViteCache() {
+  return {
+    name: 'isolate-vite-cache',
+    hooks: {
+      'astro:config:setup': ({ command, updateConfig }) => {
+        // A build must not overwrite the running dev server's React JSX runtime.
+        updateConfig({ vite: { cacheDir: `./node_modules/.vite/astro-${command}` } });
+      },
+    },
+  };
+}
+
 /**
  * When the site lives under a sub-path, every root-relative URL in the built
  * output ("/about", "/logo.jpg", "/icons/…") is prefixed with the base path.
@@ -59,9 +72,14 @@ export default defineConfig({
   base: BASE,
   output: 'static',
   trailingSlash: 'never',
+  redirects: {
+    '/founder': '/team#nikhil-srinivas',
+    '/yoga': '/programs#general-group-yoga-classes',
+    '/music': '/programs#carnatic-veena-classes',
+  },
   // "file" emits /about.html instead of /about/index.html, which GitHub Pages
   // serves at /about without a trailing-slash redirect.
   build: { format: 'file', inlineStylesheets: 'auto' },
-  integrations: [react(), mdx(), sitemap(), prefixBase()],
+  integrations: [isolateViteCache(), react(), mdx(), sitemap(), prefixBase()],
   vite: { plugins: [tailwindcss()] },
 });

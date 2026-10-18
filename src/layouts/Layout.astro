@@ -147,7 +147,7 @@ if (isPost && postDate) {
     {ld.map((block) => <script type="application/ld+json" set:html={JSON.stringify(block)} />)}
     <script is:inline>document.documentElement.classList.remove('no-js');</script>
   </head>
-  <body class="flex min-h-screen flex-col">
+  <body class="flex min-h-screen flex-col pt-16 sm:pt-20">
     <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-gold-500 focus:px-4 focus:py-2">Skip to content</a>
     <Header client:load items={nav} current={path} />
 
@@ -241,6 +241,28 @@ if (isPost && postDate) {
     <Footer />
 
     <script>
+      // Keep each identity visible only for the length of its own team card.
+      const identities = document.querySelectorAll<HTMLElement>('[data-team-identity]');
+      if ('IntersectionObserver' in window && identities.length) {
+        let identityObserver: IntersectionObserver | undefined;
+        const observeIdentities = () => {
+          identityObserver?.disconnect();
+          const top = Number.parseFloat(getComputedStyle(identities[0]).top);
+          identityObserver = new IntersectionObserver((entries) => {
+            for (const entry of entries) {
+              const identity = entry.target.nextElementSibling as HTMLElement;
+              identity.dataset.stuck = String(!entry.isIntersecting && entry.boundingClientRect.top <= top);
+            }
+          }, { rootMargin: `-${top}px 0px 0px 0px`, threshold: 0 });
+          identities.forEach((identity) => {
+            const sentinel = identity.previousElementSibling;
+            if (sentinel) identityObserver!.observe(sentinel);
+          });
+        };
+        observeIdentities();
+        window.matchMedia('(min-width: 640px)').addEventListener('change', observeIdentities);
+      }
+
       // Light scroll-reveal: adds .is-visible once an element enters the viewport.
       const els = document.querySelectorAll<HTMLElement>('.reveal');
       if (!('IntersectionObserver' in window)) {

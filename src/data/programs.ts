@@ -11,7 +11,7 @@ export const programGroups: ProgramGroup[] = [
   {
     key: "yoga",
     title: "Yoga",
-    href: "/yoga",
+    href: "/programs#general-group-yoga-classes",
     intro:
       "Body • Breath • Mind. Traditional practice made accessible and safe for every stage of life.",
     items: [
@@ -56,7 +56,7 @@ export const programGroups: ProgramGroup[] = [
   {
     key: "music",
     title: "Music",
-    href: "/music",
+    href: "/programs#carnatic-veena-classes",
     intro:
       "Nāda • Rāga • Harmony. Carnatic music as art, discipline and a doorway to stillness.",
     items: [
@@ -142,7 +142,7 @@ export const pillars = [
       "Meditation",
       "Wellness",
     ],
-    href: "/yoga",
+    href: "/programs#general-group-yoga-classes",
   },
   {
     key: "music",
@@ -156,7 +156,7 @@ export const pillars = [
       "Raga-based Relaxation",
       "Music & Well-being",
     ],
-    href: "/music",
+    href: "/programs#carnatic-veena-classes",
   },
   {
     key: "jnana",

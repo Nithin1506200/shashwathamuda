@@ -21,12 +21,11 @@ export type NavItem = { label: string; href: string };
 export const nav: NavItem[] = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
-  { label: 'Yoga', href: '/yoga' },
-  { label: 'Music', href: '/music' },
   { label: 'Programs', href: '/programs' },
   { label: 'Research', href: '/research' },
   { label: 'Community', href: '/community' },
   { label: 'Events', href: '/events' },
+  { label: 'Gallery', href: '/gallery' },
   { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '/contact' },
 ];
@@ -36,27 +35,20 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
     heading: 'Explore',
     items: [
       { label: 'About', href: '/about' },
-      { label: 'Founder', href: '/founder' },
       { label: 'Our Team', href: '/team' },
       { label: 'Gallery', href: '/gallery' },
-      { label: 'Testimonials', href: '/testimonials' },
     ],
   },
   {
     heading: 'Offerings',
     items: [
-      { label: 'Yoga', href: '/yoga' },
-      { label: 'Music', href: '/music' },
       { label: 'Programs & Services', href: '/programs' },
-      { label: 'Wellness', href: '/wellness' },
       { label: 'Research & Knowledge', href: '/research' },
     ],
   },
   {
     heading: 'Connect',
     items: [
-      { label: 'Events', href: '/events' },
-      { label: 'Community & Impact', href: '/community' },
       { label: 'Collaborate', href: '/collaborate' },
       { label: 'Blog', href: '/blog' },
       { label: 'FAQs', href: '/faq' },

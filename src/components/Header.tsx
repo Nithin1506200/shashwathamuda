@@ -25,8 +25,8 @@ export default function Header({ items, current }: Props) {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-sand-50/90 shadow-sm shadow-peacock-900/5 backdrop-blur' : 'bg-transparent'
+      className={`fixed inset-x-0 top-0 z-50 bg-sand-50 transition-shadow duration-300 ${
+        scrolled ? 'shadow-sm shadow-peacock-900/5' : ''
       }`}
     >
       <div className="container-x flex h-16 items-center justify-between gap-4 sm:h-20">
@@ -90,8 +90,9 @@ export default function Header({ items, current }: Props) {
       {/* Mobile drawer */}
       <div
         id="mobile-nav"
-        className={`fixed inset-0 top-16 z-40 bg-sand-50/98 backdrop-blur transition-all duration-300 xl:hidden ${
-          open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
+        inert={!open}
+        className={`fixed inset-0 top-16 z-40 bg-sand-50/98 backdrop-blur transition-all duration-300 sm:top-20 xl:hidden ${
+          open ? 'visible pointer-events-auto opacity-100' : 'invisible pointer-events-none opacity-0'
         }`}
       >
         <nav className="container-x flex h-full flex-col gap-1 overflow-y-auto pb-10 pt-6" aria-label="Mobile">

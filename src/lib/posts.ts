@@ -1,4 +1,5 @@
 import { readingTime } from './readingTime';
+import { parse } from 'yaml';
 
 export type PostFrontmatter = {
   type?: string;
@@ -13,31 +14,30 @@ export type PostFrontmatter = {
 
 export type Post = PostFrontmatter & { slug: string; url: string; readingTime: string };
 
-// Blog posts are plain MDX pages in src/pages/blog/. The compiled modules give us
-// frontmatter; the `?raw` glob gives the source so reading time can be estimated.
-//
-// The globs are evaluated inside the function (not at module top level) because the
-// layout imports this file and every post imports the layout — a cycle that is only
-// safe once all modules have finished initialising.
+// Read metadata without importing compiled MDX pages. Those pages import Layout,
+// which imports this module; loading them here creates a circular dependency that
+// can leave components undefined during development-server updates.
 export function getPosts(): Post[] {
-  const modules = import.meta.glob<{ frontmatter: PostFrontmatter; url: string }>('../pages/blog/*.mdx', { eager: true });
   const sources = import.meta.glob<string>('../pages/blog/*.mdx', { query: '?raw', import: 'default', eager: true });
-  return Object.entries(modules)
-    .filter(([file, mod]) => !file.endsWith('/index.mdx') && mod.frontmatter?.type === 'post')
-    .map(([file, mod]) => {
+  return Object.entries(sources)
+    .filter(([file]) => !file.endsWith('/index.mdx'))
+    .flatMap(([file, source]) => {
+      const yaml = source.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/)?.[1];
+      if (!yaml) return [];
+      const frontmatter = parse(yaml) as PostFrontmatter | null;
+      if (frontmatter?.type !== 'post' || frontmatter.draft) return [];
       const slug = file.split('/').pop()!.replace(/\.mdx$/, '');
-      return {
-        ...mod.frontmatter,
+      return [{
+        ...frontmatter,
         // frontmatter dates may arrive as Date objects or strings; normalise to YYYY-MM-DD
-        date: new Date(mod.frontmatter.date).toISOString().slice(0, 10),
-        author: mod.frontmatter.author ?? 'Shashwatamuda',
-        tags: mod.frontmatter.tags ?? [],
+        date: new Date(frontmatter.date).toISOString().slice(0, 10),
+        author: frontmatter.author ?? 'Shashwatamuda',
+        tags: frontmatter.tags ?? [],
         slug,
         url: `/blog/${slug}`,
-        readingTime: readingTime(sources[file]),
-      };
+        readingTime: readingTime(source),
+      }];
     })
-    .filter((p) => !p.draft)
     .sort((a, b) => b.date.localeCompare(a.date));
 }
 

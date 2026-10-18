@@ -7,7 +7,7 @@ import { glob } from 'astro/loaders';
  *   ---
  *   question: "Do I need prior experience?"
  *   topic: Yoga                # grouping used on the /faq page
- *   pages: ["/yoga", "/programs"]   # or ["all"] to show on every page
+ *   pages: ["/programs"]   # or ["all"] to show on every page
  *   order: 10                  # lower shows first
  *   ---
  *   The answer, written in Markdown/MDX.

@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 
 const interests = [
   "Yoga classes",
+  "Personalised one-to-one sessions",
+  "Prenatal yoga",
   "Therapeutic Yoga / Consultation",
   "Pranayama & Meditation",
   "Carnatic Veena / Music",

@@ -35,7 +35,7 @@ Create `src/content/faq/my-question.mdx`:
 ---
 question: "Do I need prior experience to join a class?"
 topic: Yoga               # grouping on the /faq page
-pages: ["/yoga", "/programs"]   # or ["all"] to show on every page
+pages: ["/programs"]   # or ["all"] to show on every page
 order: 10                 # lower shows first
 ---
 No. Most programs welcome complete beginners.

@@ -4,6 +4,7 @@ export type Member = {
   group: string;
   bio: string;
   initials: string;
+  image?: string;
 };
 
 export const team: Member[] = [
@@ -12,49 +13,23 @@ export const team: Member[] = [
     role: "Founder & Lead",
     group: "Leadership",
     initials: "NS",
-    bio: "Yoga educator, PhD researcher in Integrative Medicine (Yoga), yoga therapist and Carnatic Veena artist.",
+    image: "/image.png",
+    bio: "Yoga therapist, educator and researcher with over nine years of teaching experience. Nikhil is pursuing a PhD in Integrative Medicine (Yoga) at SDUAHER, Kolar, researching yoga interventions for COPD. As founder of Shashwatamuda and a Carnatic Veena teacher, he brings together yoga, music and community well-being.",
   },
   {
-    name: "Yoga Faculty",
-    role: "Senior Yoga Teacher",
+    name: "Dhruvi Patel",
+    role: "Yoga Teacher",
     group: "Yoga Faculty",
-    initials: "YF",
-    bio: "Leads regular and advanced batches with a focus on classical Hatha practice and safe alignment.",
+    initials: "DP",
+    image: "/dhruvi/profie%20pic.jpeg",
+    bio: "Dhruvi Patel is a yoga therapist with an MSc in Yoga Therapy from Lakulesh University, Ahmedabad. She has worked with more than 500 clients across diverse age groups, designing personalised yoga programmes for physical pain, stress and lifestyle conditions. Her specialisations include Hatha Yoga, Ashtanga Yoga, prenatal and postnatal yoga, and yoga therapy.",
   },
   {
-    name: "Yoga Therapy Faculty",
-    role: "Yoga Therapist",
-    group: "Yoga Faculty",
-    initials: "YT",
-    bio: "Designs condition-specific practice plans and supports individual consultations.",
-  },
-  {
-    name: "Music Faculty",
-    role: "Carnatic Veena & Vocal",
-    group: "Music Faculty",
-    initials: "MF",
-    bio: "Teaches Veena and Carnatic vocal foundations, and leads raga-based relaxation sessions.",
-  },
-  {
-    name: "Advisor — Integrative Medicine",
-    role: "Advisor / Mentor",
-    group: "Advisors & Mentors",
-    initials: "AM",
-    bio: "Guides the research program and institutional collaborations.",
-  },
-  {
-    name: "Advisor — Bharatiya Shāstras",
-    role: "Advisor / Mentor",
-    group: "Advisors & Mentors",
-    initials: "AS",
-    bio: "Anchors the knowledge hub in classical sources and traditions.",
-  },
-  {
-    name: "Youth Team",
-    role: "Volunteers",
-    group: "Volunteers & Youth Team",
-    initials: "YV",
-    bio: "Students and young professionals who support camps, events and community outreach.",
+    name: "Ramya",
+    role: "Volunteer",
+    group: "Volunteers",
+    initials: "R",
+    bio: "Ramya is a software engineer based in the United States and a volunteer at Shashwatamuda.",
   },
 ];
 

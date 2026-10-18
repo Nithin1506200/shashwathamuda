@@ -1,18 +1,25 @@
 ---
 layout: ../layouts/Layout.astro
 title: Programs & Services
-eyebrow: Programs
-lead: What Shashwatamuda actually offers — for individuals, families, young people and institutions.
-description: All yoga, music, workshop and training programs offered by Shashwatamuda.
+eyebrow: Practice with us
+lead: Explore yoga and Carnatic Veena classes, with special programmes for personalised one-to-one practice and prenatal yoga.
+description: Shashwatamuda offers group yoga, advanced practice, therapeutic yoga, corporate yoga, Carnatic Veena classes, personalised one-to-one sessions and prenatal yoga.
+hideFaqs: true
 wide: true
 ---
-import { ProgramGroups } from '../components/Programs';
-import { Section, Cta } from '../components/Section';
+import { Section, SectionHeading, Cta } from '../components/Section';
+import ProgramOfferings from '../components/ProgramOfferings';
 
 <Section>
-  <ProgramGroups />
+  <SectionHeading title="Our programmes" align="left" className="mb-8" />
+  <ProgramOfferings />
 </Section>
 
-<Section tone="tint">
-  <Cta title="Not sure where to start?" text="Tell us a little about yourself and we will recommend a program." primary={{ label: 'Talk to us', href: '/contact' }} secondary={{ label: 'Wellness services', href: '/wellness' }} />
+<Section tone="tint" id="special-programmes">
+  <SectionHeading eyebrow="Individual care" title="Special programmes" align="left" className="mb-8" />
+  <ProgramOfferings special />
+</Section>
+
+<Section>
+  <Cta title="Find the right programme" text="Contact us for class details, availability and guidance on where to begin." primary={{ label: 'Contact us', href: '/contact' }} />
 </Section>
