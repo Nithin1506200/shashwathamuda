@@ -18,6 +18,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PageHero from '../components/PageHero';
 import SerpentDivider from '../components/SerpentDivider';
+import SuryaNamaskar from '../components/SuryaNamaskar.astro';
 import { site, nav } from '../data/site';
 import { getPost } from '../lib/posts';
 
@@ -239,6 +240,7 @@ if (isPost && postDate) {
     </main>
 
     <Footer />
+    {path === '/' && <SuryaNamaskar />}
 
     <script>
       // Keep each identity visible only for the length of its own team card.
