@@ -17,7 +17,7 @@ const interests = [
 type Props = { whatsapp: string };
 
 export default function ContactForm({ whatsapp }: Props) {
-  const [form, setForm] = useState({ name: "", interest: interests[0], message: "" });
+  const [form, setForm] = useState({ interest: interests[0], message: "" });
 
   useEffect(() => {
     const interest = new URLSearchParams(window.location.search).get("interest");
@@ -26,7 +26,7 @@ export default function ContactForm({ whatsapp }: Props) {
 
   const update =
     (key: keyof typeof form) =>
-    (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+    (event: React.ChangeEvent<HTMLSelectElement | HTMLTextAreaElement>) =>
       setForm((current) => ({ ...current, [key]: event.target.value }));
 
   const field =
@@ -38,15 +38,10 @@ export default function ContactForm({ whatsapp }: Props) {
       const lines = [
         "Reaching out from an enquiry on the Shashwatamuda website.",
         `Hello, I am interested in ${form.interest}.`,
-        form.name.trim() && `Name: ${form.name.trim()}`,
         form.message.trim() && `Message: ${form.message.trim()}`,
       ].filter(Boolean);
       window.open(`${whatsapp}?text=${encodeURIComponent(lines.join("\n"))}`, "_blank", "noopener,noreferrer");
     }}>
-      <label className="grid gap-1.5 text-sm font-medium text-ink-700">
-        Name (optional)
-        <input className={field} value={form.name} onChange={update("name")} placeholder="Your name" autoComplete="name" />
-      </label>
       <label className="grid gap-1.5 text-sm font-medium text-ink-700">
         Area of interest
         <select className={field} value={form.interest} onChange={update("interest")}>
