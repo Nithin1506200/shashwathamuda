@@ -45,11 +45,16 @@ export const team: Member[] = [
     ],
   },
   {
-    name: "Ramya",
+    name: "Venkata Ramya Purgindla",
     role: "Volunteer",
     group: "Volunteers",
-    initials: "R",
-    bio: "Ramya is a software engineer based in the United States and a volunteer at Shashwatamuda.",
+    initials: "VR",
+    image: "/ramya/ramya.jpeg",
+    bio: "Venkata Ramya Purgindla is a software engineer based in the United States and a volunteer at Shashwatamuda. She has started a startup called Arogya Ahaar.",
+    education: [
+      "Bachelor's degree in Electrical and Electronics Engineering (EEE)",
+      "Master's degree in Computer Science",
+    ],
   },
 ];
 
