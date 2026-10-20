@@ -54,21 +54,26 @@ It gets its own static page, appears in `/blog`, `/blog/index.json` (fetched laz
 
 1. Push the repository to GitHub.
 2. In the repo go to **Settings → Pages → Build and deployment** and set **Source** to **GitHub Actions**.
-3. Push to `main` (or run the workflow manually from the **Actions** tab). The site appears at
-   `https://<owner>.github.io/<repo>/` — for this repo, `https://nithin1506200.github.io/shashwathamuda/`.
+3. Set **Settings → Pages → Custom domain** to `shashwatamuda.com`, then push to `main` (or run the workflow manually from the **Actions** tab).
 
 The build reads two environment variables, which the workflow fills in automatically:
 
 | Variable | Project site (default) | Custom domain |
 | --- | --- | --- |
-| `SITE_URL` | `https://<owner>.github.io` | `https://shashwatamuda.org` |
-| `BASE_PATH` | `/<repo>` | `/` |
+| `SITE_URL` | `https://shashwatamuda.com` | Set a repository variable to override |
+| `BASE_PATH` | `/` | Set a repository variable to override |
 
 When `BASE_PATH` is not `/`, the build rewrites every root-relative link, image, manifest entry, sitemap and canonical URL to include it, so the source stays free of base-path plumbing.
 
-**Custom domain:** add the two variables under **Settings → Secrets and variables → Actions → Variables**
-(`SITE_URL` = your domain, `BASE_PATH` = `/`), then enter the domain under **Settings → Pages → Custom domain**
-and point DNS at GitHub Pages (`CNAME` for `www`, or the four `A` records for the apex). GitHub commits the `CNAME` file for you.
+**Custom domain:** `public/CNAME` contains `shashwatamuda.com` and is copied to the build output. Because this site deploys through GitHub Actions, GitHub Pages ignores that file for domain configuration; enter `shashwatamuda.com` under **Settings → Pages → Custom domain**. At your DNS provider, point the apex (`@`) to GitHub Pages with the four `A` records, and optionally point `www` to `nithin1506200.github.io` with a `CNAME` record.
+
+| Type | Host | Value |
+| --- | --- | --- |
+| A | `@` | `185.199.108.153` |
+| A | `@` | `185.199.109.153` |
+| A | `@` | `185.199.110.153` |
+| A | `@` | `185.199.111.153` |
+| CNAME (optional) | `www` | `nithin1506200.github.io` |
 
 To test a sub-path build locally: `BASE_PATH=/shashwathamuda SITE_URL=https://nithin1506200.github.io npm run build`.
 

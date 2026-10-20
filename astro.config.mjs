@@ -11,12 +11,12 @@ import { join } from 'node:path';
  * Deployment target is configured through environment variables so the same code
  * works for a custom domain and for a GitHub Pages project site:
  *
- *   SITE_URL   e.g. https://shashwatamuda.org  or  https://<owner>.github.io
+ *   SITE_URL   e.g. https://shashwatamuda.com  or  https://<owner>.github.io
  *   BASE_PATH  e.g. /                          or  /<repo-name>
  *
  * The GitHub Actions workflow in .github/workflows/deploy.yml sets both.
  */
-const SITE = process.env.SITE_URL || 'https://shashwatamuda.org';
+const SITE = process.env.SITE_URL || 'https://shashwatamuda.com';
 const BASE = (process.env.BASE_PATH || '/').replace(/\/+$/, '') || '/';
 
 /** @returns {import('astro').AstroIntegration} */

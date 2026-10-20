@@ -2,11 +2,8 @@
 #
 # Setup (once): GitHub repo → Settings → Pages → "Build and deployment" → Source: GitHub Actions.
 #
-# Custom domain: add repository variables (Settings → Secrets and variables → Actions → Variables)
-#   SITE_URL  = https://shashwatamuda.org
-#   BASE_PATH = /
-# and put the domain in Settings → Pages → Custom domain (GitHub writes the CNAME file).
-# Without these variables the site is served at https://<owner>.github.io/<repo>/.
+# Custom domain: set shashwatamuda.com in Settings → Pages → Custom domain.
+# GitHub Actions deployments ignore the CNAME file; the Pages setting is required.
 name: Deploy to GitHub Pages
 
 on:
@@ -27,8 +24,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      SITE_URL: ${{ vars.SITE_URL || format('https://{0}.github.io', github.repository_owner) }}
-      BASE_PATH: ${{ vars.BASE_PATH || (endsWith(github.event.repository.name, '.github.io') && '/' || format('/{0}', github.event.repository.name)) }}
+      SITE_URL: ${{ vars.SITE_URL || 'https://shashwatamuda.com' }}
+      BASE_PATH: ${{ vars.BASE_PATH || '/' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

@@ -4,7 +4,7 @@ export const site = {
   pillarsLine: 'Yoga • Music • Wisdom • Well-being',
   description:
     'Shashwatamuda is a contemporary platform rooted in the timeless wisdom of Yoga, Indian classical music and Bharatiya traditions — creating meaningful pathways towards holistic well-being, learning and inner harmony.',
-  url: 'https://shashwatamuda.org',
+  url: 'https://shashwatamuda.com',
   email: 'hello@shashwatamuda.org',
   phone: '+91 00000 00000',
   location: 'Bengaluru, Karnataka, India',
