@@ -20,6 +20,7 @@ export default function Footer() {
           </a>
           <p className="mt-5 max-w-sm text-sm leading-relaxed text-peacock-200">Ancient Wisdom. Contemporary Well-being. Eternal Joy.</p>
           <p className="mt-3 text-sm text-peacock-200">{site.location}</p>
+          <a href={`tel:${site.phone.replace(/\s/g, '')}`} className="mt-2 inline-block text-sm text-peacock-100 hover:text-white hover:underline">{site.phone}</a>
           <div className="mt-6 flex gap-3">
             {social.map((s) => (
               <a key={s.label} href={s.href} target="_blank" rel="noopener" aria-label={s.label} className="rounded-full border border-peacock-700 p-2.5 transition hover:border-gold-400 hover:text-gold-300">
