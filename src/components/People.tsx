@@ -30,7 +30,26 @@ export function TeamGrid() {
                     <p className="team-role mt-2 text-[10px] font-semibold uppercase leading-relaxed tracking-[0.12em] text-peacock-600 sm:text-xs">{m.role}</p>
                   </div>
                 </div>
-                <p className="px-7 py-8 text-base leading-8 text-ink-700 sm:px-10">{m.bio}</p>
+                <div className="space-y-5 px-7 py-8 text-base leading-8 text-ink-700 sm:px-10">
+                  {m.bio && <p>{m.bio}</p>}
+                  {m.personalStatement && <p>{m.personalStatement}</p>}
+                  {m.education && (
+                    <div>
+                      <h4 className="font-semibold text-peacock-800">Education</h4>
+                      <ul className="mt-2 list-disc space-y-2 pl-5 marker:text-gold-600">
+                        {m.education.map((item) => <li key={item}>{item}</li>)}
+                      </ul>
+                    </div>
+                  )}
+                  {m.experience && (
+                    <div>
+                      <h4 className="font-semibold text-peacock-800">Experience</h4>
+                      <ul className="mt-2 list-disc space-y-2 pl-5 marker:text-gold-600">
+                        {m.experience.map((item) => <li key={item}>{item}</li>)}
+                      </ul>
+                    </div>
+                  )}
+                </div>
                 {m.name === 'Nikhil Srinivas' && (
                   <div className="px-7 pb-8 sm:px-10">
                     <a className="btn-outline" href="/gallery#nikhil-srinivas">Explore Nikhil’s gallery <span aria-hidden="true">→</span></a>

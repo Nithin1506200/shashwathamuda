@@ -1,5 +1,6 @@
-import { useEffect, useRef } from 'react';
-import { dhruviPhotos, nikhilPhotos } from '../data/gallery';
+import { useEffect, useRef, useState } from 'react';
+import { allGalleryPhotos, dhruviPhotos, nikhilPhotos } from '../data/gallery';
+import PhotoLightbox, { type SelectedPhoto } from './PhotoLightbox';
 
 const albums = [
   { person: 'Nikhil', id: 'nikhil-srinivas', folder: 'nikhil', label: 'Yoga, learning & community', photos: nikhilPhotos },
@@ -8,7 +9,7 @@ const albums = [
 
 type Album = typeof albums[number];
 
-function PhotoRow({ album }: { album: Album }) {
+function PhotoRow({ album, onSelect }: { album: Album; onSelect: (photo: SelectedPhoto) => void }) {
   const row = useRef<HTMLDivElement>(null);
   const container = useRef<HTMLDivElement>(null);
 
@@ -54,10 +55,10 @@ function PhotoRow({ album }: { album: Album }) {
         <ul className="gallery-sequence">
           {album.photos.map((photo, index) => (
             <li key={photo.file} className="gallery-frame">
-              <a href={`/gallery#${album.id}`} className="gallery-photo">
+              <button type="button" onClick={() => onSelect({ src: `/${album.folder}/${encodeURIComponent(photo.file)}`, alt: photo.alt })} className="gallery-photo" aria-label={`${photo.alt}. View full-size photograph`}>
                 <img src={`/gallery-preview/${album.folder}-${index + 1}.webp`} alt={photo.alt} width={640} height={480} loading="lazy" decoding="async" />
-                <span className="gallery-caption" aria-hidden="true">{album.person}<span>View gallery ↗</span></span>
-              </a>
+                <span className="gallery-caption" aria-hidden="true">{album.person}<span>View photo ↗</span></span>
+              </button>
             </li>
           ))}
         </ul>
@@ -67,10 +68,16 @@ function PhotoRow({ album }: { album: Album }) {
 }
 
 export default function MovingGallery() {
+  const [selectedPhoto, setSelectedPhoto] = useState<SelectedPhoto>(null);
+  const navigate = (direction: number) => {
+    const index = allGalleryPhotos.findIndex((photo) => photo.src === selectedPhoto?.src);
+    setSelectedPhoto(allGalleryPhotos[(index + direction + allGalleryPhotos.length) % allGalleryPhotos.length]);
+  };
   return (
     <div className="moving-gallery">
+      <PhotoLightbox photo={selectedPhoto} onClose={() => setSelectedPhoto(null)} onNavigate={navigate} />
       <div className="space-y-10">
-        {albums.map((album) => <PhotoRow key={album.id} album={album} />)}
+        {albums.map((album) => <PhotoRow key={album.id} album={album} onSelect={setSelectedPhoto} />)}
       </div>
       <div className="mt-8 text-center">
         <a href="/gallery" className="btn-outline">Explore the gallery <span aria-hidden="true">↗</span></a>

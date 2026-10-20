@@ -28,3 +28,8 @@ export const nikhilPhotos = [
   { file: 'Presentation 1 svyasa.jpeg', alt: 'Nikhil standing beside a research poster at S-VYASA' },
 ];
 
+export const allGalleryPhotos = [
+  ...nikhilPhotos.map((photo) => ({ src: `/nikhil/${encodeURIComponent(photo.file)}`, alt: photo.alt })),
+  ...dhruviPhotos.map((photo) => ({ src: `/dhruvi/${encodeURIComponent(photo.file)}`, alt: photo.alt })),
+];
+

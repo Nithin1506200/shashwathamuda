@@ -21,6 +21,7 @@ export type NavItem = { label: string; href: string };
 export const nav: NavItem[] = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
+  { label: 'Team', href: '/team' },
   { label: 'Programs', href: '/programs' },
   { label: 'Research', href: '/research' },
   { label: 'Community', href: '/community' },

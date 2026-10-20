@@ -3,6 +3,9 @@ export type Member = {
   role: string;
   group: string;
   bio: string;
+  personalStatement?: string;
+  education?: string[];
+  experience?: string[];
   initials: string;
   image?: string;
 };
@@ -23,6 +26,22 @@ export const team: Member[] = [
     initials: "DP",
     image: "/dhruvi/profie%20pic.jpeg",
     bio: "Dhruvi Patel is a yoga therapist with an MSc in Yoga Therapy from Lakulesh University, Ahmedabad. She has worked with more than 500 clients across diverse age groups, designing personalised yoga programmes for physical pain, stress and lifestyle conditions. Her specialisations include Hatha Yoga, Ashtanga Yoga, prenatal and postnatal yoga, and yoga therapy.",
+  },
+  {
+    name: "Gunjan",
+    role: "Yoga Faculty",
+    group: "Yoga Faculty",
+    initials: "G",
+    bio: "",
+    personalStatement: "I believe healing begins with feeling heard, understood and accepted without judgment. I bring empathy, patience and genuine care into every interaction, creating a safe space where you can feel comfortable being yourself. My approach to yoga is gentle and personalised, because I believe wellness is not about pushing yourself to change, but learning to understand yourself better. I hope to help you slow down, reconnect with yourself and discover a healthier, more balanced way of living, at your own pace.",
+    education: [
+      "MSc in Yoga Therapy and Counselling — Karnataka Sanskrit University (pursuing)",
+      "BSc in Yoga and Vedic Therapy — S-VYASA University",
+    ],
+    experience: [
+      "DigiVYASA: 1.6 years as a Yoga Course Facilitator.",
+      "SHYFT: 3 months as a Community Manager in psychology and self-development.",
+    ],
   },
   {
     name: "Ramya",
