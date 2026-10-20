@@ -32,7 +32,7 @@ export function TeamGrid() {
                 </div>
                 <div className="space-y-5 px-7 py-8 text-base leading-8 text-ink-700 sm:px-10">
                   {m.bio && <p>{m.bio}</p>}
-                  {m.personalStatement && <p>{m.personalStatement}</p>}
+                  {m.personalStatement?.split('\n\n').map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
                   {m.education && (
                     <div>
                       <h4 className="font-semibold text-peacock-800">Education</h4>

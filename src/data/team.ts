@@ -51,6 +51,7 @@ export const team: Member[] = [
     initials: "VR",
     image: "/ramya/ramya.jpeg",
     bio: "Venkata Ramya Purgindla is a software engineer based in the United States and a volunteer at Shashwatamuda. She has started a startup called Arogya Ahaar.",
+    personalStatement: "I believe that true well-being begins with nurturing both the body and the mind through mindful living, nourishing food, and a deeper understanding of ourselves. My philosophy is rooted in the belief that feeling supported, practising self-compassion, and making conscious choices about what we eat and how we live can create a meaningful foundation for a healthier, more balanced life.\n\nAs a yoga practitioner and someone passionate about food and nourishment, I value a holistic approach to wellness that honours each individual’s unique needs and experiences. I strive to create a welcoming, judgment-free environment where you feel comfortable exploring your personal journey towards well-being. Through mindful movement, breathwork, and an appreciation for nourishing food, my intention is to help you cultivate greater self-awareness, reconnect with your inner self, and find harmony between mind, body, and spirit—one mindful choice at a time.",
     education: [
       "Bachelor's degree in Electrical and Electronics Engineering (EEE)",
       "Master's degree in Computer Science",
