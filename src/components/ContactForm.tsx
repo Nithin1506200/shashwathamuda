@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 const interests = [
   "Yoga classes",
@@ -14,140 +14,52 @@ const interests = [
   "Other",
 ];
 
-type Props = { email: string };
+type Props = { whatsapp: string };
 
-/**
- * Static-site friendly contact form. Submissions open the visitor's mail client with a
- * pre-filled message. Swap `mode` to "endpoint" and set `endpoint` (e.g. a Formspree URL)
- * to POST instead.
- */
-export default function ContactForm({ email }: Props) {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    interest: interests[0],
-    message: "",
-  });
-  const [sent, setSent] = useState(false);
+export default function ContactForm({ whatsapp }: Props) {
+  const [form, setForm] = useState({ name: "", interest: interests[0], message: "" });
 
   useEffect(() => {
-    const p = new URLSearchParams(window.location.search).get("interest");
-    if (p)
-      setForm((f) => ({
-        ...f,
-        interest: p,
-        message: `I would like to know more about ${p}.`,
-      }));
+    const interest = new URLSearchParams(window.location.search).get("interest");
+    if (interest) setForm((current) => ({ ...current, interest }));
   }, []);
 
-  const mailto = useMemo(() => {
-    const subject = encodeURIComponent(
-      `[Website] ${form.interest} — ${form.name || "Enquiry"}`,
-    );
-    const body = encodeURIComponent(
-      `Name: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone}\nArea of interest: ${form.interest}\n\n${form.message}`,
-    );
-    return `mailto:${email}?subject=${subject}&body=${body}`;
-  }, [form, email]);
-
   const update =
-    (k: keyof typeof form) =>
-    (
-      e: React.ChangeEvent<
-        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-      >,
-    ) =>
-      setForm((f) => ({ ...f, [k]: e.target.value }));
+    (key: keyof typeof form) =>
+    (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+      setForm((current) => ({ ...current, [key]: event.target.value }));
 
   const field =
     "w-full rounded-xl border border-sand-200 bg-white/80 px-4 py-3 text-ink-900 placeholder:text-ink-500/70 transition focus:border-peacock-400 focus:outline-none focus:ring-2 focus:ring-peacock-200";
 
   return (
-    <form
-      className="grid gap-4"
-      onSubmit={(e) => {
-        e.preventDefault();
-        window.location.href = mailto;
-        setSent(true);
-      }}
-    >
-      <div className="grid gap-4 sm:grid-cols-2">
-        <label className="grid gap-1.5 text-sm font-medium text-ink-700">
-          Name
-          <input
-            required
-            className={field}
-            value={form.name}
-            onChange={update("name")}
-            placeholder="Your name"
-            autoComplete="name"
-          />
-        </label>
-        <label className="grid gap-1.5 text-sm font-medium text-ink-700">
-          Email
-          <input
-            required
-            type="email"
-            className={field}
-            value={form.email}
-            onChange={update("email")}
-            placeholder="you@example.com"
-            autoComplete="email"
-          />
-        </label>
-        <label className="grid gap-1.5 text-sm font-medium text-ink-700">
-          Phone
-          <input
-            type="tel"
-            className={field}
-            value={form.phone}
-            onChange={update("phone")}
-            placeholder="+91"
-            autoComplete="tel"
-          />
-        </label>
-        <label className="grid gap-1.5 text-sm font-medium text-ink-700">
-          Area of interest
-          <select
-            className={field}
-            value={form.interest}
-            onChange={update("interest")}
-          >
-            {!interests.includes(form.interest) && (
-              <option value={form.interest}>{form.interest}</option>
-            )}
-            {interests.map((i) => (
-              <option key={i}>{i}</option>
-            ))}
-          </select>
-        </label>
-      </div>
+    <form className="grid gap-4" onSubmit={(event) => {
+      event.preventDefault();
+      const lines = [
+        "Reaching out from an enquiry on the Shashwatamuda website.",
+        `Hello, I am interested in ${form.interest}.`,
+        form.name.trim() && `Name: ${form.name.trim()}`,
+        form.message.trim() && `Message: ${form.message.trim()}`,
+      ].filter(Boolean);
+      window.open(`${whatsapp}?text=${encodeURIComponent(lines.join("\n"))}`, "_blank", "noopener,noreferrer");
+    }}>
       <label className="grid gap-1.5 text-sm font-medium text-ink-700">
-        Message
-        <textarea
-          required
-          rows={5}
-          className={field}
-          value={form.message}
-          onChange={update("message")}
-          placeholder="Tell us a little about what you are looking for."
-        />
+        Name (optional)
+        <input className={field} value={form.name} onChange={update("name")} placeholder="Your name" autoComplete="name" />
       </label>
-      <div className="flex flex-wrap items-center gap-4">
-        <button type="submit" className="btn-primary">
-          Send message
-        </button>
-        {sent && (
-          <p className="text-sm text-peacock-700">
-            Your mail app should open with the message pre-filled. Thank you!
-          </p>
-        )}
-      </div>
-      <p className="text-xs text-ink-500">
-        By writing to us you agree to be contacted about your enquiry. We never
-        share your details.
-      </p>
+      <label className="grid gap-1.5 text-sm font-medium text-ink-700">
+        Area of interest
+        <select className={field} value={form.interest} onChange={update("interest")}>
+          {!interests.includes(form.interest) && <option value={form.interest}>{form.interest}</option>}
+          {interests.map((interest) => <option key={interest}>{interest}</option>)}
+        </select>
+      </label>
+      <label className="grid gap-1.5 text-sm font-medium text-ink-700">
+        Message (optional)
+        <textarea rows={5} className={field} value={form.message} onChange={update("message")} placeholder="Tell us a little about what you are looking for." />
+      </label>
+      <button type="submit" className="btn-primary justify-self-start">Continue on WhatsApp</button>
+      <p className="text-xs text-ink-500">WhatsApp will open in a new tab with your enquiry ready to send.</p>
     </form>
   );
 }

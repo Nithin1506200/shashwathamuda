@@ -4,8 +4,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
   const social = [
     { href: site.social.instagram, label: 'Instagram', d: <><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" /></> },
-    { href: site.social.facebook, label: 'Facebook', d: <path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z" /> },
-    { href: site.social.youtube, label: 'YouTube', d: <><rect x="3" y="6" width="18" height="12" rx="4" /><path d="M10 9.5v5l4.5-2.5z" fill="currentColor" /></> },
+    { href: site.whatsapp, label: 'WhatsApp', d: <><path d="M20.5 11.8a8.5 8.5 0 0 1-12.4 7.5L3 21l1.7-5.1A8.5 8.5 0 1 1 20.5 11.8Z" /><path d="M8.3 8.3c-.4.5-.5 1.1-.2 1.8 1.1 2.6 3.1 4.6 5.7 5.7.7.3 1.3.2 1.8-.2l.9-1.1-2.3-1.2-.9.8a7.5 7.5 0 0 1-3.4-3.4l.8-.9-1.2-2.3-1.2.8Z" /></> },
   ];
   return (
     <footer className="relative mt-8 border-t border-sand-200 bg-peacock-900 text-peacock-100">
